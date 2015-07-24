@@ -34,13 +34,11 @@ def ReadRemarks(user_id):
   # were posted. Return the results as a list of tuples with (user, text, color).
 
   colors = ['black', 'blue', 'red', 'yellow', 'pink']
-
-  query = Remark.query(Remark.timestamp >= start_time).order(Remark.timestamp)
-  remarks = []
-  for remark in query.fetch():
-    remarks.append((remark.user, remark.text, random.choice(colors)))
-
-  return remarks
+  return [
+      (remark.user, remark.text, random.choice(colors))
+      for remark
+      in Remark.query(
+          Remark.timestamp >= start_time).order(Remark.timestamp).fetch()]
 
 
 def PostRemark(user, text):
