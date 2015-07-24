@@ -33,12 +33,11 @@ def ReadRemarks(user_id):
   # were posted. Return the results as a list of tuples with (user, text, color).
 
   # TODO(cssi-cam-2015) Randomize the color so that each remark is different.
-  query = Remark.query(Remark.timestamp >= start_time).order(Remark.timestamp)
-  remarks = []
-  for remark in query.fetch():
-    remarks.append((remark.user, remark.text, 'black'))
-
-  return remarks
+  return [
+      (remark.user, remark.text, 'black')
+      for remark
+      in Remark.query(
+          Remark.timestamp >= start_time).order(Remark.timestamp).fetch()]
 
 
 def PostRemark(user, text):
