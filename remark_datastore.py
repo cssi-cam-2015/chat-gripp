@@ -1,4 +1,5 @@
 """Contains functions to handle dealing with posts in the datastore."""
+import random
 from datetime import datetime
 from google.appengine.api import memcache
 from google.appengine.ext import ndb
@@ -32,11 +33,12 @@ def ReadRemarks(user_id):
   # this user checked (Remark.timestamp >= start_time). Order them by when they
   # were posted. Return the results as a list of tuples with (user, text, color).
 
-  # TODO(cssi-cam-2015) Randomize the color so that each remark is different.
+  colors = ['black', 'blue', 'red', 'yellow', 'pink']
+
   query = Remark.query(Remark.timestamp >= start_time).order(Remark.timestamp)
   remarks = []
   for remark in query.fetch():
-    remarks.append((remark.user, remark.text, 'black'))
+    remarks.append((remark.user, remark.text, random.choice(colors)))
 
   return remarks
 
